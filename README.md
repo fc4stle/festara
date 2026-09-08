@@ -1,36 +1,77 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Festara
 
-## Getting Started
+**Festara** adalah platform booking vendor pernikahan, wisuda, dan event di Yogyakarta. Festara mempertemukan calon pengantin/penyelenggara acara dengan vendor terpercaya — fotografer, wedding organizer, venue, dekorasi, catering, MUA, dan penyedia sewa perlengkapan — dalam satu platform, dengan booking langsung dan sistem pembayaran yang aman.
 
-First, run the development server:
+🔗 **Live:** [festara.id](https://festara.id)
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+---
+
+## Fitur Utama
+
+### Untuk Pembeli (Buyer)
+- Cari dan filter vendor berdasarkan kategori (Wedding Organizer, Event Organizer, Fotografer, Venue, Dekorasi, Merchandise Wisuda, Catering, MUA/Make Up Artist, Sewa)
+- Lihat profil vendor lengkap: paket harga, portofolio, ulasan, dan ketersediaan kalender
+- Chat realtime langsung dengan vendor
+- Booking berdasarkan tanggal & jam acara
+- Wishlist vendor favorit
+
+### Untuk Vendor (Seller)
+- Dashboard vendor lengkap: ringkasan bisnis, pesanan, inbox, kalender ketersediaan
+- Kelola paket layanan (tambah, edit, aktif/nonaktifkan)
+- Upload & kelola portofolio
+- Statistik performa: pendapatan, rating, response rate, dan waktu respons rata-rata
+- Nonaktifkan/aktifkan toko sewaktu-waktu
+
+### Untuk Admin
+- Ringkasan admin: aplikasi vendor pending, bukti transfer menunggu verifikasi, booking bulan ini, pendapatan terverifikasi, vendor aktif, total pendaftaran akun, dan total kunjungan halaman
+- Review & approve/reject aplikasi pendaftaran vendor baru (termasuk verifikasi KTP dan portofolio)
+- Verifikasi bukti transfer pembayaran manual
+- Kelola seluruh booking di platform
+- Kelola vendor: aktifkan/nonaktifkan toko, serta edit harga & harga promo paket layanan tiap vendor
+- Pengaturan admin
+
+---
+
+## Tech Stack
+
+- **Frontend:** Next.js (App Router), TypeScript, Tailwind CSS, Framer Motion
+- **Backend & Database:** Supabase (PostgreSQL, Auth, Storage, Realtime, Row Level Security)
+- **Pembayaran:** Midtrans (QRIS) — serta alur verifikasi transfer manual oleh admin
+- **Hosting:** Vercel
+- **Autentikasi:** Email/password & Google OAuth (PKCE)
+
+---
+
+## Struktur Singkat
+
+```
+app/
+  admin/            → Panel admin (ringkasan, aplikasi vendor, pembayaran, booking, kelola vendor, pengaturan)
+  seller/           → Dashboard vendor
+  store/[id]/       → Halaman publik profil vendor
+  chat/             → Booking & chat buyer-vendor
+  api/midtrans/     → Integrasi pembayaran QRIS
+components/         → Komponen UI bersama (ChatThread, PageViewTracker, dll)
+lib/                → Helper Supabase (admin, sellerVendor, vendors, dsb)
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+---
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Menjalankan Secara Lokal
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+1. Clone repo ini dan install dependency:
+   ```
+   npm install
+   ```
+2. Salin `.env.example` ke `.env.local` dan isi kredensial Supabase & Midtrans kamu.
+3. Jalankan development server:
+   ```
+   npm run dev
+   ```
+4. Buka [http://localhost:3000](http://localhost:3000)
 
-## Learn More
+---
 
-To learn more about Next.js, take a look at the following resources:
+## Kontribusi & Kontak
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Festara dikembangkan oleh Alysa Salsabila Irfan Putri sebagai proyek platform booking vendor untuk pasar Indonesia, dan merupakan tenant resmi Inkubator Bisnis UNY.
