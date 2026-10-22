@@ -26,39 +26,26 @@ export default function ResetPasswordPage() {
       }
     });
 
-    async function init() {
-      // Kalau sesi sudah terbentuk otomatis dari link
-      const { data: sessionData } = await supabase.auth.getSession();
+    // Library Supabase menukar kode di URL sendiri. Jangan ditukar lagi manual
+    // (kode hanya bisa dipakai sekali). Cukup tunggu sesinya terbentuk.
+    let tries = 0;
+    const timer = setInterval(async () => {
       if (!active) return;
-      if (sessionData.session) {
+      tries += 1;
+      const { data } = await supabase.auth.getSession();
+      if (!active) return;
+      if (data.session) {
+        clearInterval(timer);
         setStatus("ready");
-        return;
+      } else if (tries >= 8) {
+        clearInterval(timer);
+        setStatus((s) => (s === "checking" ? "invalid" : s));
       }
-
-      // Kalau belum, coba tukar kode di URL (alur PKCE)
-      const code = new URLSearchParams(window.location.search).get("code");
-      if (code) {
-        const { error } = await supabase.auth.exchangeCodeForSession(code);
-        if (!active) return;
-        if (!error) {
-          setStatus("ready");
-          return;
-        }
-      }
-
-      // Beri waktu singkat untuk event auth sebelum dianggap tidak valid
-      setTimeout(async () => {
-        if (!active) return;
-        const { data } = await supabase.auth.getSession();
-        if (!active) return;
-        setStatus(data.session ? "ready" : "invalid");
-      }, 1500);
-    }
-
-    init();
+    }, 500);
 
     return () => {
       active = false;
+      clearInterval(timer);
       listener.subscription.unsubscribe();
     };
   }, []);
@@ -107,7 +94,8 @@ export default function ResetPasswordPage() {
             </div>
             <h1 className="font-extrabold text-lg text-[#1A3A3C] mb-2">Link tidak valid</h1>
             <p className="text-sm text-[#4A7A6D] leading-relaxed mb-5">
-              Link reset password sudah kedaluwarsa atau sudah dipakai. Minta link yang baru.
+              Link reset password sudah kedaluwarsa, sudah dipakai, atau dibuka di browser yang berbeda dari
+              tempat kamu memintanya. Minta link baru, lalu buka link dari email di browser yang sama.
             </p>
             <Link
               href="/forgot-password"
