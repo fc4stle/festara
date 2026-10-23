@@ -36,7 +36,7 @@
 
 - **Frontend:** Next.js (App Router), TypeScript, Tailwind CSS, Framer Motion
 - **Backend & Database:** Supabase (PostgreSQL, Auth, Storage, Realtime, Row Level Security)
-- **Pembayaran:** Midtrans (QRIS) — serta alur verifikasi transfer manual oleh admin
+- **Pembayaran:** transfer manual (BSI) dengan unggah bukti transfer dan verifikasi oleh admin
 - **Hosting:** Vercel
 - **Autentikasi:** Email/password & Google OAuth (PKCE)
 
@@ -50,7 +50,6 @@ app/
   seller/           → Dashboard vendor
   store/[id]/       → Halaman publik profil vendor
   chat/             → Booking & chat buyer-vendor
-  api/midtrans/     → Integrasi pembayaran QRIS
 components/         → Komponen UI bersama (ChatThread, PageViewTracker, dll)
 lib/                → Helper Supabase (admin, sellerVendor, vendors, dsb)
 ```
@@ -63,7 +62,7 @@ lib/                → Helper Supabase (admin, sellerVendor, vendors, dsb)
    ```
    npm install
    ```
-2. Salin `.env.example` ke `.env.local` dan isi kredensial Supabase & Midtrans kamu.
+2. Salin `.env.example` ke `.env.local` dan isi kredensial Supabase dan Resend kamu.
 3. Jalankan development server:
    ```
    npm run dev
